@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { earth } from "./createObjects/earth";
 import { cloud } from "./createObjects/cloud";
+import { moon } from "./createObjects/moon";
 
 
 export const createGalaxyScene = (width, height) => {
@@ -30,6 +31,9 @@ export const createGalaxyScene = (width, height) => {
 
 	// 雲
 	scene.add(cloud);
+
+	// 月
+	scene.add(moon);
 
 	// 星を追加する
 	const starGeometry = new THREE.BufferGeometry();
@@ -61,17 +65,6 @@ export const createGalaxyScene = (width, height) => {
 	scene.add( pointLightHelper );
 
 
-	// 月を作る
-	const moonGeometry = new THREE.SphereGeometry(2, 10, 10);
-	const moonTxLoader = new THREE.TextureLoader();
-	const moonMaterial = new THREE.MeshPhongMaterial({
-		color:0xffffff,
-		map: moonTxLoader.load("https://threejs-earth.s3.ap-northeast-1.amazonaws.com/2k_moon.jpeg")
-	});
-	const moon = new THREE.Mesh(moonGeometry, moonMaterial)
-	scene.add(moon);
-
-
 	// カメラ制御の設定(マウス制御できる)
 	const controls = new OrbitControls(camera, document.querySelector<HTMLDivElement>('#app')!);
 	controls.enableDamping = true;
@@ -90,8 +83,10 @@ export const createGalaxyScene = (width, height) => {
 		// 雲の動き
 		cloud.rotation.y += 0.004;
 
+		// 月の自転
 		moon.rotation.y += 0.002;
-		// 月の円運動を実現
+
+		// 月の公転
 		moon.position.x = 20 * Math.cos(rot);
 		moon.position.z =20 * Math.sin(rot);
 

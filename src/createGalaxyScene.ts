@@ -1,7 +1,7 @@
-// main.js
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import createEarth from "./createObjects/createEarth";
+import { earth } from "./createObjects/earth";
+import { cloud } from "./createObjects/cloud";
 
 
 export const createGalaxyScene = (width, height) => {
@@ -25,8 +25,11 @@ export const createGalaxyScene = (width, height) => {
 	);
 	camera.position.set(1, 1, 10);
 
-	const earth = createEarth();
+	// 地球
 	scene.add(earth);
+
+	// 雲
+	scene.add(cloud);
 
 	// 星を追加する
 	const starGeometry = new THREE.BufferGeometry();
@@ -83,6 +86,9 @@ export const createGalaxyScene = (width, height) => {
 
 		// 地球の自転
 		earth.rotation.y += 0.002;
+
+		// 雲の動き
+		cloud.rotation.y += 0.004;
 
 		moon.rotation.y += 0.002;
 		// 月の円運動を実現

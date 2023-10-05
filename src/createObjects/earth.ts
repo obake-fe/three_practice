@@ -17,4 +17,4 @@ const createEarth = () => {
 
 }
 
-export default createEarth;
+export const earth =  createEarth();

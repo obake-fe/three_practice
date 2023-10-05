@@ -1,6 +1,7 @@
 // main.js
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import createEarth from "./createObjects/createEarth";
 
 
 export const createGalaxyScene = (width, height) => {
@@ -24,37 +25,8 @@ export const createGalaxyScene = (width, height) => {
 	);
 	camera.position.set(1, 1, 10);
 
-	// 地球の作成
-	const sphereGeometry = new THREE.SphereGeometry(5, 50, 50);
-	const sphereMaterial = new THREE.ShaderMaterial({
-		vertexShader: document.getElementById("vertex").textContent,
-		fragmentShader: document.getElementById("fragment").textContent,
-		uniforms: {
-			globeTexture: {
-				value: new THREE.TextureLoader().load("https://threejs-earth.s3.ap-northeast-1.amazonaws.com/earth.jpeg")
-			},
-		},
-	});
-
-	// 球体の作成
-	const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-	scene.add(sphere);
-	// 球体の枠をシェーダーで強調する
-	const atmosphere = new THREE.Mesh(
-		new THREE.SphereGeometry(5, 50, 50),
-		new THREE.ShaderMaterial({
-			vertexShader: document.getElementById("atmosphereVertex").textContent,
-			fragmentShader: document.getElementById("atmosphereFragment").textContent,
-			blending: THREE.AdditiveBlending,
-			side: THREE.BackSide,
-		})
-	);
-	atmosphere.scale.set(1.0, 1.0, 1.0);
-
-	scene.add(atmosphere);
-	// シーンに追加する。
-	scene.add(sphere);
-
+	const earth = createEarth();
+	scene.add(earth);
 
 	// 星を追加する
 	const starGeometry = new THREE.BufferGeometry();
@@ -108,6 +80,10 @@ export const createGalaxyScene = (width, height) => {
 		rot += 0.005; // 毎フレーム角度を0.2度ずつ足していく
 		// ラジアンに変換する
 		const radian = (rot * Math.PI) / 180;
+
+		// 地球の自転
+		earth.rotation.y += 0.002;
+
 		moon.rotation.y += 0.002;
 		// 月の円運動を実現
 		moon.position.x = 20 * Math.cos(rot);

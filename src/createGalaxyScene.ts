@@ -1,8 +1,9 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { earth } from "./createObjects/earth";
-import { cloud } from "./createObjects/cloud";
-import { moon } from "./createObjects/moon";
+import { earth } from "./objects/earth";
+import { cloud } from "./objects/cloud";
+import { moon } from "./objects/moon";
+import { stars } from "./objects/stars";
 
 
 export const createGalaxyScene = (width, height) => {
@@ -35,21 +36,7 @@ export const createGalaxyScene = (width, height) => {
 	// 月
 	scene.add(moon);
 
-	// 星を追加する
-	const starGeometry = new THREE.BufferGeometry();
-	const starMaterial = new THREE.PointsMaterial({
-		color: 0xffffff,
-	});
-	const starCount = 12000;
-	const starPositionArray = new Float32Array(starCount * 3);
-	for (let i = 0; i < starCount; i++) {
-		starPositionArray[i] = (Math.random() - 0.5) * 1000;
-	}
-	starGeometry.setAttribute(
-		"position",
-		new THREE.Float32BufferAttribute(starPositionArray, 3)
-	);
-	const stars = new THREE.Points(starGeometry, starMaterial);
+	// 星
 	scene.add(stars);
 
 

@@ -18,17 +18,4 @@ body {
   position: absolute;
   z-index: 1;
   padding: 4px 12px;
-h1 {
-  color: white;
-  font-size: 24px;
-}
-
-p {
-  color: white;
-  font-size: 14px;
-}
-
-a {
-  color: powderblue;
-}
 }

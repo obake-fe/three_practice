@@ -1,11 +1,11 @@
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { earth } from './objects/earth'
 import { cloud } from './objects/cloud'
 import { moon } from './objects/moon'
 import { stars } from './objects/stars'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-export const createGalaxyScene = (width, height): HTMLCanvasElement => {
+export const createGalaxyScene = (width: number, height: number): HTMLCanvasElement => {
   // レンダラーの作成
   const renderer = new THREE.WebGLRenderer({
     antialias: true // 地球の画質をよくする
@@ -18,12 +18,7 @@ export const createGalaxyScene = (width, height): HTMLCanvasElement => {
   const scene = new THREE.Scene()
 
   // カメラの作成
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    width / height,
-    0.1,
-    1000
-  )
+  const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
   camera.position.set(1, 1, 10)
 
   // 地球
@@ -40,23 +35,26 @@ export const createGalaxyScene = (width, height): HTMLCanvasElement => {
 
   // 太陽から降り注ぐ光を表現
   const dirLight = new THREE.DirectionalLight(0xffffff, 1)
-  dirLight.position.set(5, 3, 5)// 光の向き
+  dirLight.position.set(5, 3, 5) // 光の向き
   scene.add(dirLight)
   // 太陽光(赤色)を表現
   const pointLight = new THREE.PointLight(0xff4000, 0.5, 100)
-  pointLight.position.set(15, 15, 40)// 光の向き
+  pointLight.position.set(15, 15, 40) // 光の向き
   scene.add(pointLight)
   const pointLightHelper = new THREE.PointLightHelper(pointLight)
   scene.add(pointLightHelper)
 
   // カメラ制御の設定(マウス制御できる)
-  const controls = new OrbitControls(camera, document.querySelector<HTMLDivElement>('#app'))
+  const controls = new OrbitControls(
+    camera,
+    document.querySelector<HTMLDivElement>('#app')!
+  )
   controls.enableDamping = true
 
   // ワンフレーム毎に更新する関数をそれぞれ実行する。
   let rot = 0
 
-  function tick (): void {
+  function tick(): void {
     rot += 0.005 // 毎フレーム角度を0.2度ずつ足していく
     // ラジアンに変換する
     // const radian = (rot * Math.PI) / 180
